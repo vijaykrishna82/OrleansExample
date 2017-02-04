@@ -6,12 +6,12 @@ using OrleansExample.GrainInterfaces;
 
 namespace OrleansExample.GrainImplementations
 {
-    [StorageProvider(ProviderName ="MemoryStore")]
+    [StorageProvider(ProviderName ="AzureTableStore")]
     public class DeviceGrain : Grain<DeviceGrainState>, IDeviceGrain
     {
         private double LastValue
         {
-            set { SetLastValue(value); }
+            set{State.LastValue = value;}
             get { return State.LastValue ?? 0.0; }
 
         }
@@ -48,6 +48,7 @@ namespace OrleansExample.GrainImplementations
             }
 
             LastValue = value;
+            SetLastValue(value);
 
             return TaskDone.Done;
         }

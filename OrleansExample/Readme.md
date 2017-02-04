@@ -34,3 +34,17 @@
 - Under the Implementations project, Add `DeviceGrainState` (implementing `IGrainState`)
 - Change the `DeviceGrain` class to inherit from `Grain<DeviceGrainState>`
 
+
+### 5. Adding Azure Storage
+- Download, install and start Azure Storage Emulator
+- Add Microsoft.Orleans.OrleansAzureUtils package to the DevTestHost project
+- Change the config in OrleansHostWrapper as below:
+
+>	
+>            ClusterConfiguration config = ClusterConfiguration.LocalhostPrimarySilo();
+>            //config.AddMemoryStorageProvider();
+>           config.AddAzureTableStorageProvider(connectionString: "UseDevelopmentStorage=true");
+
+- Change the StorageProvider attribute on DeviceGrain as below:
+
+>		      [StorageProvider(ProviderName ="AzureTableStore")]

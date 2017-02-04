@@ -84,7 +84,8 @@ namespace OrleansExample.DevTestHost
                 return;
 
             ClusterConfiguration config = ClusterConfiguration.LocalhostPrimarySilo();
-            config.AddMemoryStorageProvider();
+            //config.AddMemoryStorageProvider();
+            config.AddAzureTableStorageProvider(connectionString: "UseDevelopmentStorage=true");
 
             SiloHost = new SiloHost(parameters.SiloName, config);
 
