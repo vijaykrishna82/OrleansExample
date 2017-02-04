@@ -1,4 +1,8 @@
 using System;
+using System.Net;
+using Orleans;
+using Orleans.Runtime.Configuration;
+using OrleansExample.GrainInterfaces;
 
 namespace OrleansExample.DevTestHost
 {
@@ -14,7 +18,21 @@ namespace OrleansExample.DevTestHost
             Console.WriteLine("Orleans Silo is running.\nPress Enter to terminate...");
             Console.ReadLine();
 
-            OrleansAppDomainHost.ShutDown(hostDomain);
+            try
+            {
+                DeviceGrainClient.Consume();
+            }
+            finally
+            {
+
+
+                OrleansAppDomainHost.ShutDown(hostDomain);
+            }
         }
+
+        
     }
+
+
+    
 }

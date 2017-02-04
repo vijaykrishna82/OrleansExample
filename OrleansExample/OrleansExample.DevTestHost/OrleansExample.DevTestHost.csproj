@@ -93,6 +93,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceGrainClient.cs" />
     <Compile Include="OrleansAppDomainHost.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="OrleansHostWrapper.cs" />
@@ -105,6 +106,21 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OrleansExample.GrainImplementations\OrleansExample.GrainImplementations.csproj">
+      <Project>{68abb0bd-b05b-428e-a35f-b11fdfdc0801}</Project>
+      <Name>OrleansExample.GrainImplementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OrleansExample.GrainInterfaces\OrleansExample.GrainInterfaces.csproj">
+      <Project>{B8C507CB-5023-46F1-A8CC-F0EC510EAC6A}</Project>
+      <Name>OrleansExample.GrainInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClientConfiguration.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
