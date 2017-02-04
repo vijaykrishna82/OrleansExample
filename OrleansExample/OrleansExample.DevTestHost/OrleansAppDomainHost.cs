@@ -23,8 +23,6 @@ namespace OrleansExample.DevTestHost
                 AppDomainInitializerArguments = args,
             });
 
-            var config = ClientConfiguration.LocalhostSilo();
-            GrainClient.Initialize(config);
 
 
             return hostDomain;

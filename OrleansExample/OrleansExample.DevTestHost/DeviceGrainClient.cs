@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Orleans;
+﻿using Orleans;
+using Orleans.Runtime.Configuration;
 using OrleansExample.GrainInterfaces;
+using System;
 
 namespace OrleansExample.DevTestHost
 {
@@ -12,14 +9,13 @@ namespace OrleansExample.DevTestHost
     {
         public static void Consume()
         {
-            GrainClient.Initialize("ClientConfiguration.xml");
-
+            var config = ClientConfiguration.LocalhostSilo();
+            GrainClient.Initialize(config);
             var grain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(0);
 
-
+            Console.WriteLine("Keep entering temperature, -1 or non-number to quit");
             while (true)
             {
-                Console.WriteLine("Enter temperature, -1 to quit");
                 var temperature = double.Parse(Console.ReadLine());
 
                 if (temperature > 0)
@@ -30,7 +26,6 @@ namespace OrleansExample.DevTestHost
                 {
                     break;
                 }
-
             }
         }
     }

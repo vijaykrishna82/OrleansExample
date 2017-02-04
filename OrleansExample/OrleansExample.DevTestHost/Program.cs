@@ -1,8 +1,4 @@
 using System;
-using System.Net;
-using Orleans;
-using Orleans.Runtime.Configuration;
-using OrleansExample.GrainInterfaces;
 
 namespace OrleansExample.DevTestHost
 {
@@ -15,7 +11,7 @@ namespace OrleansExample.DevTestHost
         {
             var hostDomain = OrleansAppDomainHost.Create(args);
 
-            Console.WriteLine("Orleans Silo is running.\nPress Enter to terminate...");
+            Console.WriteLine("Orleans Silo is running.\nPress Enter to continue...");
             Console.ReadLine();
 
             try
@@ -24,15 +20,8 @@ namespace OrleansExample.DevTestHost
             }
             finally
             {
-
-
                 OrleansAppDomainHost.ShutDown(hostDomain);
             }
         }
-
-        
     }
-
-
-    
 }

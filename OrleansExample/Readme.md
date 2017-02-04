@@ -21,3 +21,12 @@
 - Or search for Microsoft Orleans Tools for Visual Studio 
 
 - Create new DevTestHost Project
+- The hosting code comes with the project
+
+- The following code initializes the client for localhost consumption
+
+`           
+            var config = ClientConfiguration.LocalhostSilo();
+            GrainClient.Initialize(config);
+            var grain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(0);
+`
