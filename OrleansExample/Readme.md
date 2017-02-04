@@ -25,8 +25,6 @@
 
 - The following code initializes the client for localhost consumption
 
-`           
-            var config = ClientConfiguration.LocalhostSilo();
-            GrainClient.Initialize(config);
-            var grain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(0);
-`
+>            var config = ClientConfiguration.LocalhostSilo();
+>            GrainClient.Initialize(config);
+>            var grain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(0);
