@@ -7,7 +7,7 @@ using Orleans;
 
 namespace OrleansExample.GrainInterfaces
 {
-    public interface IDeviceGrain : IGrain
+    public interface IDeviceGrain : IGrainWithIntegerKey
     {
         Task SetTemperature(double value);
     }

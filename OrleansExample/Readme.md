@@ -15,3 +15,9 @@
 - Implement business logic, return TaskDone.Done
 - Override OnActivateAsync for constructor logic
 
+### 3. Developer TestHost
+
+- Install the Orleans visual studio templates from https://marketplace.visualstudio.com/items?itemName=sbykov.MicrosoftOrleansToolsforVisualStudio
+- Or search for Microsoft Orleans Tools for Visual Studio 
+
+- Create new DevTestHost Project
