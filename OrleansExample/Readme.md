@@ -28,3 +28,9 @@
 >            var config = ClientConfiguration.LocalhostSilo();
 >            GrainClient.Initialize(config);
 >            var grain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(0);
+
+### 4. Adding State Storage
+
+- Under the Implementations project, Add `DeviceGrainState` (implementing `IGrainState`)
+- Change the `DeviceGrain` class to inherit from `Grain<DeviceGrainState>`
+

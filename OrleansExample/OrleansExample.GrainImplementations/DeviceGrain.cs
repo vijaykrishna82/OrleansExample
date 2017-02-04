@@ -1,22 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Orleans;
+using Orleans.Providers;
 using OrleansExample.GrainInterfaces;
 
 namespace OrleansExample.GrainImplementations
 {
-    public class DeviceGrain : Orleans.Grain, IDeviceGrain
+    [StorageProvider(ProviderName ="MemoryStore")]
+    public class DeviceGrain : Grain<DeviceGrainState>, IDeviceGrain
     {
-        private double LastValue;
+        private double LastValue
+        {
+            set { SetLastValue(value); }
+            get { return State.LastValue ?? 0.0; }
+
+        }
+
+        private async void SetLastValue(double value)
+        {
+            if (State.LastValue != value)
+            {
+                State.LastValue = value;
+                await WriteStateAsync();
+            }
+            else
+            {
+                Console.WriteLine("No change");
+            }
+        }
 
 
         public override Task OnActivateAsync()
         {
             var id = this.GetPrimaryKeyLong();
-            Console.WriteLine("Activated DeviceGrain {0}", id);
+            Console.WriteLine("Activated DeviceGrain {0} with state {1}", id, State.LastValue);
 
             return base.OnActivateAsync();
 
