@@ -9,5 +9,6 @@ namespace OrleansExample.GrainInterfaces
 {
     public interface IDeviceGrain : IGrain
     {
+        Task SetTemperature(double value);
     }
 }

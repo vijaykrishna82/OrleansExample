@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrleansExample", "OrleansEx
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrleansExample.GrainInterfaces", "OrleansExample.GrainInterfaces\OrleansExample.GrainInterfaces.csproj", "{B8C507CB-5023-46F1-A8CC-F0EC510EAC6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrleansExample.GrainImplementations", "OrleansExample.GrainImplementations\OrleansExample.GrainImplementations.csproj", "{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,11 +40,28 @@ Global
 		{B8C507CB-5023-46F1-A8CC-F0EC510EAC6A}.Release|x64.Build.0 = Release|Any CPU
 		{B8C507CB-5023-46F1-A8CC-F0EC510EAC6A}.Release|x86.ActiveCfg = Release|Any CPU
 		{B8C507CB-5023-46F1-A8CC-F0EC510EAC6A}.Release|x86.Build.0 = Release|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Debug|ARM.Build.0 = Debug|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Debug|x64.Build.0 = Debug|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Debug|x86.Build.0 = Debug|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Release|ARM.ActiveCfg = Release|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Release|ARM.Build.0 = Release|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Release|x64.ActiveCfg = Release|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Release|x64.Build.0 = Release|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Release|x86.ActiveCfg = Release|Any CPU
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B8C507CB-5023-46F1-A8CC-F0EC510EAC6A} = {8603CFB7-5A0C-4443-9595-65A230A1534F}
+		{68ABB0BD-B05B-428E-A35F-B11FDFDC0801} = {8603CFB7-5A0C-4443-9595-65A230A1534F}
 	EndGlobalSection
 EndGlobal
