@@ -90,4 +90,11 @@ Purpose: Grain can accept requests while awaiting, just one activation instead o
 When running the program, user can add device specific temperature by entering [DeviceId, temperature] 
 example: 3, 90
 
+### 8. Bypass Serialization
+
+Messages within a silo can be passed without serialization if the destination grain can keep itself from modifying the properties of the message (immutable message).
+
+- Change SystemGrain.SetTemperature interface to take a TemperatureReading parameter
+- Mark the TemperatureReading class with `[Immutable]` attribute, this will bypass serialization while system grain and device grain are within the same silo
+
 

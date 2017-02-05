@@ -38,7 +38,14 @@ namespace OrleansExample.GrainImplementations
         public override Task OnActivateAsync()
         {
             var id = this.GetPrimaryKeyLong();
+
+            State = State ?? new DeviceGrainState();
+            State.System = State.System ?? "DefaultSystem";
+            State.LastValue = State.LastValue ?? 0.0;
+
             Console.WriteLine("Activated DeviceGrain {0} with state {1}", id, State == null ? "(null)" : string.Format("{0}", State.LastValue));
+
+            
 
             return base.OnActivateAsync();
 
@@ -55,7 +62,14 @@ namespace OrleansExample.GrainImplementations
             LastValue = value;
 
             var systemGrain = GrainFactory.GetGrain<ISystemGrain>(State.System);
-            return systemGrain.SetTemperature(value, this.GetPrimaryKeyLong());
+
+            var temperatureReading = new TemperatureReading
+            {
+                DeviceId = this.GetPrimaryKeyLong(),
+                Value = value,
+                Time = DateTime.UtcNow
+            };
+            return systemGrain.SetTemperature(temperatureReading);
         }
 
         public Task JoinSystem(string name)

@@ -18,9 +18,12 @@ namespace OrleansExample.GrainImplementations
             Temperatures = new Dictionary<long, double>();
             return base.OnActivateAsync();
         }
-        public Task SetTemperature(double value, long deviceId)
+        public Task SetTemperature(TemperatureReading reading)
         {
-            Temperatures[deviceId] = value;
+            if (reading == null)
+                return TaskDone.Done;
+
+            Temperatures[reading.DeviceId] = reading.Value;
 
             if (Temperatures.Values.Average() > 100)
             {
