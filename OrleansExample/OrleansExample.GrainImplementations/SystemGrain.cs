@@ -35,16 +35,23 @@ namespace OrleansExample.GrainImplementations
 
         Task HighTemperatureAlert(object highTemperatureState)
         {
-            if (!Temperatures.Values.Any())
-                return TaskDone.Done;
-
-            var average = Temperatures.Values.Average();
+            var average = GetAverageTemperature();
             if (!(average > 100)) return TaskDone.Done;
 
             //Console.WriteLine("System temperature is high");
             Observers.Notify(x => x.HighTemperature(average));
 
             return TaskDone.Done;
+        }
+
+        private double GetAverageTemperature()
+        {
+            if (!Temperatures.Values.Any())
+                return -1;
+
+            var average = Temperatures.Values.Average();
+            return average;
+
         }
         public Task SetTemperature(TemperatureReading reading)
         {
@@ -67,6 +74,11 @@ namespace OrleansExample.GrainImplementations
         {
             Observers.Unsubscribe(observer);
             return TaskDone.Done;
+        }
+
+        public Task<double> GetTemperature()
+        {
+            return Task.FromResult(GetAverageTemperature());
         }
     }
 }

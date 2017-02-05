@@ -1,7 +1,8 @@
 This project is 2017 technology update to the course example project for the 2014 Pluralsight course:
 
-*Introduction to Microsoft Orleans by Richard Astbury*
-https://app.pluralsight.com/library/courses/microsoft-orleans-introduction/table-of-contents
+> *Introduction to Microsoft Orleans by Richard Astbury*
+> 
+> https://app.pluralsight.com/library/courses/microsoft-orleans-introduction/table-of-contents
 
 
 
@@ -170,6 +171,25 @@ In the DevTestHost project:
 
 >            var systemGrain = GrainClient.GrainFactory.GetGrain<ISystemGrain>("vehicle1");
 >            systemGrain.SubscribeObserver(observerRef).Wait();
+
+
+## 5. Exposing Grains in WebApi
+
+Notes:
+- Orleans grains communicate over TCP but this should not be exposed to outside
+- Treat Orleans as a database
+- Use ASP.net WebApi to provide remote access
+
+Steps:
+- Create a WebApi project, add reference to Orleans package and GrainInterfaces project
+- Initialize the Orleans client in startup 
+- Connect to grains from Controllers
+
+Code Example:
+- DecodeGrain will expose the Decode method, 
+- DeviceGrain will expose a new GetTemperature method
+- SystemGrain will expose a new GetTemperature method
+
 
 
 

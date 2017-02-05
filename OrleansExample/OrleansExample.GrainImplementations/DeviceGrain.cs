@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Orleans;
+﻿using Orleans;
 using Orleans.Concurrency;
 using Orleans.Providers;
 using OrleansExample.GrainInterfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace OrleansExample.GrainImplementations
 {
@@ -15,7 +15,6 @@ namespace OrleansExample.GrainImplementations
         {
             set { SetLastValue(value); }
             get { return State == null ? 0.0 : State.LastValue ?? 0.0; }
-
         }
 
         private async void SetLastValue(double value)
@@ -34,7 +33,6 @@ namespace OrleansExample.GrainImplementations
             }
         }
 
-
         public override Task OnActivateAsync()
         {
             var id = this.GetPrimaryKeyLong();
@@ -51,14 +49,10 @@ namespace OrleansExample.GrainImplementations
 
             Console.WriteLine("Activated DeviceGrain {0} with state {1}", id, State == null ? "(null)" : string.Format("{0}", State.LastValue));
 
-            
-
             return base.OnActivateAsync();
-
         }
 
-
-        public  Task SetTemperature(double value)
+        public Task SetTemperature(double value)
         {
             if (LastValue < 100 && value >= 100)
             {
@@ -67,6 +61,11 @@ namespace OrleansExample.GrainImplementations
 
             LastValue = value;
             return RegisterWithSystemGrain(value);
+        }
+
+        public Task<double> GetTemperature()
+        {
+            return Task.FromResult(LastValue);
         }
 
         private Task RegisterWithSystemGrain(double value)

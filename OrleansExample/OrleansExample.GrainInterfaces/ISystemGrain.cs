@@ -14,5 +14,7 @@ namespace OrleansExample.GrainInterfaces
         Task SubscribeObserver(ISystemObserver observer);
 
         Task UnsubscribeObserver(ISystemObserver observer);
+
+        Task<double> GetTemperature();
     }
 }

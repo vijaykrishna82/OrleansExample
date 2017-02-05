@@ -11,6 +11,8 @@ namespace OrleansExample.GrainInterfaces
     {
         Task SetTemperature(double value);
 
+        Task<double> GetTemperature();
+
         Task JoinSystem(string name);
     }
 }
