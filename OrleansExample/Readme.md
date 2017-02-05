@@ -61,5 +61,33 @@ Purpose: Provides "controller" or "dispatcher" logic. Parses the input and deter
 
 - In the DevTestHost.DeviceGrainClient use the DecoderGrain instead of DeviceGrain
 
->    var grain = GrainClient.GrainFactory.GetGrain<IDecoderGrain>(0);
+>           var grain = GrainClient.GrainFactory.GetGrain<IDecoderGrain>(0);
+
+### 7. Re-entrant Grains
+
+Purpose: Grain can accept requests while awaiting, just one activation instead of per call
+
+- Add ISystemGrain to GrainInterfaces
+- Add SystemGrain to GrainImplementations 
+- Add `[Reentrant]` attribute to DecoderGrain and DeviceGrain classes so that they can accept requests while awaiting (task interleaving)
+- Allow DeviceGrain to join SystemGrain state by adding `JoinSystem` method to IDeviceGrain
+- Change the SetTemperature method of DeviceGrain to report the temperature to SystemGrain by calling
+
+>             var systemGrain = GrainFactory.GetGrain<ISystemGrain>(State.System);
+>             return systemGrain.SetTemperature(value, this.GetPrimaryKeyLong());
+
+- Activate 3 DeviceGrain instances within the DevTestHost
+
+>            var deviceGrain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(3);
+>            deviceGrain.JoinSystem("vehicle1").Wait();
+>
+>            deviceGrain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(4);
+>            deviceGrain.JoinSystem("vehicle1").Wait();
+>
+>            deviceGrain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(5);
+>           deviceGrain.JoinSystem("vehicle1").Wait();
+
+When running the program, user can add device specific temperature by entering [DeviceId, temperature] 
+example: 3, 90
+
 

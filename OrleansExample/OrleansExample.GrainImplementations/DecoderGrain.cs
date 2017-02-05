@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Orleans;
+using Orleans.Concurrency;
 using OrleansExample.GrainInterfaces;
 
 namespace OrleansExample.GrainImplementations
 {
+    [Reentrant]
+    [StatelessWorker]
     public class DecoderGrain : Grain, IDecoderGrain
     {
         public Task Decode(string message)

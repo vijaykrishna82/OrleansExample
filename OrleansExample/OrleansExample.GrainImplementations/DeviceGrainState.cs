@@ -10,17 +10,9 @@ namespace OrleansExample.GrainImplementations
     public class DeviceGrainState : IGrainState    {
         public double? LastValue { get; set; }
 
-        public object State
-        {
-            get
-            {
-                return LastValue;
-            }
-            set
-            {
-                LastValue = value == null ? null : (double?) double.Parse(value.ToString());
-            }
-        }
+        public string System { get; set; }
+
+        public object State { get; set; }
 
         public string ETag { get; set; }
     }

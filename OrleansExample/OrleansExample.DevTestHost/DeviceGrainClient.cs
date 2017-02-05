@@ -13,6 +13,16 @@ namespace OrleansExample.DevTestHost
             GrainClient.Initialize(config);
             var grain = GrainClient.GrainFactory.GetGrain<IDecoderGrain>(0);
 
+            var deviceGrain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(3);
+            deviceGrain.JoinSystem("vehicle1").Wait();
+
+            deviceGrain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(4);
+            deviceGrain.JoinSystem("vehicle1").Wait();
+
+            deviceGrain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(5);
+            deviceGrain.JoinSystem("vehicle1").Wait();
+
+
             Console.WriteLine("Keep entering [GrainId, Temperature]. Example 10, 20");
             while (true)
             {

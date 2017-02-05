@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Orleans;
+using Orleans.Concurrency;
 using Orleans.Providers;
 using OrleansExample.GrainInterfaces;
 
 namespace OrleansExample.GrainImplementations
 {
     [StorageProvider(ProviderName = "DeviceGrainFileProvider")]
+    [Reentrant]
     public class DeviceGrain : Grain<DeviceGrainState>, IDeviceGrain
     {
         private double LastValue
@@ -43,7 +45,7 @@ namespace OrleansExample.GrainImplementations
         }
 
 
-        public Task SetTemperature(double value)
+        public  Task SetTemperature(double value)
         {
             if (LastValue < 100 && value >= 100)
             {
@@ -52,7 +54,14 @@ namespace OrleansExample.GrainImplementations
 
             LastValue = value;
 
-            return TaskDone.Done;
+            var systemGrain = GrainFactory.GetGrain<ISystemGrain>(State.System);
+            return systemGrain.SetTemperature(value, this.GetPrimaryKeyLong());
+        }
+
+        public Task JoinSystem(string name)
+        {
+            State.System = name;
+            return WriteStateAsync();
         }
     }
 }
