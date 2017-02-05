@@ -18,7 +18,7 @@ namespace OrleansExample.GrainImplementations
             }
             set
             {
-                LastValue = value as double?;
+                LastValue = value == null ? null : (double?) double.Parse(value.ToString());
             }
         }
 

@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using Orleans.Runtime.Configuration;
 using Orleans.Runtime.Host;
+using OrleansExample.FileStorageProvider;
+using OrleansExample.GrainImplementations;
 
 namespace OrleansExample.DevTestHost
 {
@@ -84,7 +86,8 @@ namespace OrleansExample.DevTestHost
                 return;
 
             ClusterConfiguration config = ClusterConfiguration.LocalhostPrimarySilo();
-            config.AddMemoryStorageProvider();
+            config.AddFileStorageProvider<DeviceGrainState>(providerName: "DeviceGrainFileProvider");
+           
 
             SiloHost = new SiloHost(parameters.SiloName, config);
 

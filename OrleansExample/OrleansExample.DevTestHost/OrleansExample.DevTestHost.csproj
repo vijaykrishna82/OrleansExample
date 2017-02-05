@@ -109,6 +109,10 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OrleansExample.FileStorageProvider\OrleansExample.FileStorageProvider.csproj">
+      <Project>{55ba81b1-ec2d-4db5-9a1c-d018a4332233}</Project>
+      <Name>OrleansExample.FileStorageProvider</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OrleansExample.GrainImplementations\OrleansExample.GrainImplementations.csproj">
       <Project>{68abb0bd-b05b-428e-a35f-b11fdfdc0801}</Project>
       <Name>OrleansExample.GrainImplementations</Name>

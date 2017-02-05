@@ -6,18 +6,21 @@ using OrleansExample.GrainInterfaces;
 
 namespace OrleansExample.GrainImplementations
 {
-    [StorageProvider(ProviderName ="MemoryStore")]
+    [StorageProvider(ProviderName = "DeviceGrainFileProvider")]
     public class DeviceGrain : Grain<DeviceGrainState>, IDeviceGrain
     {
         private double LastValue
         {
             set { SetLastValue(value); }
-            get { return State.LastValue ?? 0.0; }
+            get { return State == null ? 0.0 : State.LastValue ?? 0.0; }
 
         }
 
         private async void SetLastValue(double value)
         {
+            if (State == null)
+                return;
+
             if (State.LastValue != value)
             {
                 State.LastValue = value;
@@ -33,7 +36,7 @@ namespace OrleansExample.GrainImplementations
         public override Task OnActivateAsync()
         {
             var id = this.GetPrimaryKeyLong();
-            Console.WriteLine("Activated DeviceGrain {0} with state {1}", id, State.LastValue);
+            Console.WriteLine("Activated DeviceGrain {0} with state {1}", id, State == null ? "(null)" : string.Format("{0}", State.LastValue));
 
             return base.OnActivateAsync();
 
