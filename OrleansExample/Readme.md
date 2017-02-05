@@ -1,12 +1,12 @@
-## Steps to Create
+## 1. Steps to Create
 
-### 1.  Interfaces Project 
+### 1.1  Interfaces Project 
 
 -  Create new class library
 -  Nuget Install Microsoft.Orleans.OrleansCodeGenerator.Build
 -  Add the IDeviceGrain interface inherits from IGrain
 
-### 2. Implementations Project
+### 1.2. Implementations Project
 
 -  Create new class library
 -  Nuget Install Microsoft.Orleans.OrleansCodeGenerator.Build
@@ -15,7 +15,7 @@
 - Implement business logic, return TaskDone.Done
 - Override OnActivateAsync for constructor logic
 
-### 3. Developer TestHost
+### 1.3. Developer TestHost
 
 - Install the Orleans visual studio templates from https://marketplace.visualstudio.com/items?itemName=sbykov.MicrosoftOrleansToolsforVisualStudio
 - Or search for Microsoft Orleans Tools for Visual Studio 
@@ -29,12 +29,14 @@
 >            GrainClient.Initialize(config);
 >            var grain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(0);
 
-### 4. Adding State Storage
+## 2. Storage Persistence
+
+### 2.1. Adding State Storage
 
 - Under the Implementations project, Add `DeviceGrainState` (implementing `IGrainState`)
 - Change the `DeviceGrain` class to inherit from `Grain<DeviceGrainState>`
 
-### 5. Adding File Storage Provider
+### 2.2 . Adding File Storage Provider
 
 - Create a new class library, add Microsoft.Orleans.OrleansCodeGenerator.Build package
 - Add CustomStorageProvider class, implementing from `IStorageProvider`
@@ -49,7 +51,9 @@
 - Run the program. It will create a file in the Debug folder (example: `OrleansExample.GrainImplementations.DeviceGrain-GrainReference=0000000000000000000000000000000003ffffffb6637264.txt`)
 - When loading next time it will load state from that file.
 
-### 6.Adding stateless worker
+## 3. Multiple Grain Interactions
+
+### 3.1.Adding stateless worker
 
 Purpose: Provides "controller" or "dispatcher" logic. Parses the input and determines which Grain class will do the actual processing.
 
@@ -63,7 +67,7 @@ Purpose: Provides "controller" or "dispatcher" logic. Parses the input and deter
 
 >           var grain = GrainClient.GrainFactory.GetGrain<IDecoderGrain>(0);
 
-### 7. Re-entrant Grains
+### 3.2. Re-entrant Grains
 
 Purpose: Grain can accept requests while awaiting, just one activation instead of per call
 
@@ -90,7 +94,7 @@ Purpose: Grain can accept requests while awaiting, just one activation instead o
 When running the program, user can add device specific temperature by entering [DeviceId, temperature] 
 example: 3, 90
 
-### 8. Bypass Serialization
+### 3.3. Bypass Serialization
 
 Messages within a silo can be passed without serialization if the destination grain can keep itself from modifying the properties of the message (immutable message).
 
@@ -98,3 +102,28 @@ Messages within a silo can be passed without serialization if the destination gr
 - Mark the TemperatureReading class with `[Immutable]` attribute, this will bypass serialization while system grain and device grain are within the same silo
 
 
+## 4. Scheduled Processing
+
+### 4.1 Timers 
+
+Purpose:
+- Grains can register timers to call a function at regular intervals
+- Timers are async, single threaded and reentrant 
+- Multiple timers can be registered, cancelled
+- Last the length of grain activation
+
+Code Example: 
+- System Grain will check average temperature regularly and send an alert (here just console writeline)
+
+Within the System Grain:
+- Move the temperature check code to a separate method `HighTemperatureCheck`
+- Within `OnActivateAsync` register a timer by caling `RegisterTimer`
+
+>            Timer = RegisterTimer(HighTemperatureAlert, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+
+
+### 4.2 Reminders
+
+- Same as timers but Persist beyond the life of the Grain
+- Will activate the grain if it does not exist
+- Should not be used for high frequency functionality
