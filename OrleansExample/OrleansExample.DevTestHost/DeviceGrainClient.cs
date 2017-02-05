@@ -23,6 +23,12 @@ namespace OrleansExample.DevTestHost
             deviceGrain.JoinSystem("vehicle1").Wait();
 
 
+            var observer = new SystemObserver();
+            var observerRef = GrainClient.GrainFactory.CreateObjectReference<ISystemObserver>(observer).Result;
+
+            var systemGrain = GrainClient.GrainFactory.GetGrain<ISystemGrain>("vehicle1");
+            systemGrain.SubscribeObserver(observerRef).Wait();
+
             Console.WriteLine("Keep entering [GrainId, Temperature]. Example 10, 20");
             while (true)
             {

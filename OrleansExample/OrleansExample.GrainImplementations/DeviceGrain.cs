@@ -43,6 +43,12 @@ namespace OrleansExample.GrainImplementations
             State.System = State.System ?? "DefaultSystem";
             State.LastValue = State.LastValue ?? 0.0;
 
+            if (State.LastValue != 0.0)
+            {
+                //register with system
+                RegisterWithSystemGrain(State.LastValue.Value);
+            }
+
             Console.WriteLine("Activated DeviceGrain {0} with state {1}", id, State == null ? "(null)" : string.Format("{0}", State.LastValue));
 
             
@@ -60,7 +66,11 @@ namespace OrleansExample.GrainImplementations
             }
 
             LastValue = value;
+            return RegisterWithSystemGrain(value);
+        }
 
+        private Task RegisterWithSystemGrain(double value)
+        {
             var systemGrain = GrainFactory.GetGrain<ISystemGrain>(State.System);
 
             var temperatureReading = new TemperatureReading

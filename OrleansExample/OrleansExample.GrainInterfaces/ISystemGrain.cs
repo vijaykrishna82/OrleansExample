@@ -10,5 +10,9 @@ namespace OrleansExample.GrainInterfaces
     public interface ISystemGrain : IGrainWithStringKey
     {
         Task SetTemperature(TemperatureReading reading);
+
+        Task SubscribeObserver(ISystemObserver observer);
+
+        Task UnsubscribeObserver(ISystemObserver observer);
     }
 }

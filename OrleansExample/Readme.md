@@ -1,12 +1,12 @@
 ## 1. Steps to Create
 
-### 1.1  Interfaces Project 
+### 1.1 Interfaces Project 
 
 -  Create new class library
 -  Nuget Install Microsoft.Orleans.OrleansCodeGenerator.Build
 -  Add the IDeviceGrain interface inherits from IGrain
 
-### 1.2. Implementations Project
+### 1.2 Implementations Project
 
 -  Create new class library
 -  Nuget Install Microsoft.Orleans.OrleansCodeGenerator.Build
@@ -15,7 +15,7 @@
 - Implement business logic, return TaskDone.Done
 - Override OnActivateAsync for constructor logic
 
-### 1.3. Developer TestHost
+### 1.3 Developer TestHost
 
 - Install the Orleans visual studio templates from https://marketplace.visualstudio.com/items?itemName=sbykov.MicrosoftOrleansToolsforVisualStudio
 - Or search for Microsoft Orleans Tools for Visual Studio 
@@ -31,12 +31,12 @@
 
 ## 2. Storage Persistence
 
-### 2.1. Adding State Storage
+### 2.1 Adding State Storage
 
 - Under the Implementations project, Add `DeviceGrainState` (implementing `IGrainState`)
 - Change the `DeviceGrain` class to inherit from `Grain<DeviceGrainState>`
 
-### 2.2 . Adding File Storage Provider
+### 2.2 Adding File Storage Provider
 
 - Create a new class library, add Microsoft.Orleans.OrleansCodeGenerator.Build package
 - Add CustomStorageProvider class, implementing from `IStorageProvider`
@@ -53,7 +53,7 @@
 
 ## 3. Multiple Grain Interactions
 
-### 3.1.Adding stateless worker
+### 3.1 Adding stateless worker
 
 Purpose: Provides "controller" or "dispatcher" logic. Parses the input and determines which Grain class will do the actual processing.
 
@@ -67,7 +67,7 @@ Purpose: Provides "controller" or "dispatcher" logic. Parses the input and deter
 
 >           var grain = GrainClient.GrainFactory.GetGrain<IDecoderGrain>(0);
 
-### 3.2. Re-entrant Grains
+### 3.2  Re-entrant Grains
 
 Purpose: Grain can accept requests while awaiting, just one activation instead of per call
 
@@ -94,7 +94,7 @@ Purpose: Grain can accept requests while awaiting, just one activation instead o
 When running the program, user can add device specific temperature by entering [DeviceId, temperature] 
 example: 3, 90
 
-### 3.3. Bypass Serialization
+### 3.3 Bypass Serialization
 
 Messages within a silo can be passed without serialization if the destination grain can keep itself from modifying the properties of the message (immutable message).
 
@@ -124,6 +124,50 @@ Within the System Grain:
 
 ### 4.2 Reminders
 
+Purpose:
 - Same as timers but Persist beyond the life of the Grain
 - Will activate the grain if it does not exist
 - Should not be used for high frequency functionality
+
+### 4.3 Observers
+
+Purpose:
+- Providing Status to Callers
+- Each Caller registers an Observer
+- Grain will Notify each Observer
+
+Code Example: 
+- Notify observers when SystemGrain detects high temperature
+
+In the GrainInterfaces project:
+- Add ISystemObserver interface inheriting from `IGrainObserver` interface
+- Change ISystemGrain with new methods AddSubscriber and RemoveSubscriber
+
+In the GrainImplementations project:
+- In SystemGrain, add a `ObserverSubscriptionManager<ISystemObserver>` field to hold the subscriptions.
+- Implement the AddSubscriber and RemoveSubscriber by adding and removing observers from the above field.
+- Within the HighTemperatureAlert method, change Console.writeline to notifying the observers as below:
+
+>            //Console.WriteLine("System temperature is high");
+>            Observers.Notify(x => x.HighTemperature(average));
+
+In the DevTestHost project:
+- Add a new SystemObserver class that implements ISystemObserver
+- In the DeviceGrainClient, create an instance of SystemObserver and convert it to a Grain reference as below:
+
+>            var observer = new SystemObserver();
+>            var observerRef = GrainClient.GrainFactory.CreateObjectReference<ISystemObserver>(observer).Result;
+
+- Pass the observer reference to the System Grain to be notified of high temperature, as below:
+
+>            var systemGrain = GrainClient.GrainFactory.GetGrain<ISystemGrain>("vehicle1");
+>            systemGrain.SubscribeObserver(observerRef).Wait();
+
+
+
+
+
+
+
+
+
