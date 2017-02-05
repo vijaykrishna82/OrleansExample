@@ -1,3 +1,11 @@
+This project is 2017 technology update to the course example project for the 2014 Pluralsight course:
+
+*Introduction to Microsoft Orleans by Richard Astbury*
+https://app.pluralsight.com/library/courses/microsoft-orleans-introduction/table-of-contents
+
+
+
+
 ## 1. Steps to Create
 
 ### 1.1 Interfaces Project 
