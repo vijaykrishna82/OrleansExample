@@ -11,16 +11,16 @@ namespace OrleansExample.DevTestHost
         {
             var config = ClientConfiguration.LocalhostSilo();
             GrainClient.Initialize(config);
-            var grain = GrainClient.GrainFactory.GetGrain<IDeviceGrain>(0);
+            var grain = GrainClient.GrainFactory.GetGrain<IDecoderGrain>(0);
 
-            Console.WriteLine("Keep entering temperature, -1 or non-number to quit");
+            Console.WriteLine("Keep entering [GrainId, Temperature]. Example 10, 20");
             while (true)
             {
-                var temperature = double.Parse(Console.ReadLine());
+                var temperature = Console.ReadLine();
 
-                if (temperature > 0)
+                if (temperature != "-1")
                 {
-                    grain.SetTemperature(temperature);
+                    grain.Decode(temperature);
                 }
                 else
                 {

@@ -48,3 +48,18 @@
 
 - Run the program. It will create a file in the Debug folder (example: `OrleansExample.GrainImplementations.DeviceGrain-GrainReference=0000000000000000000000000000000003ffffffb6637264.txt`)
 - When loading next time it will load state from that file.
+
+### 6.Adding stateless worker
+
+Purpose: Provides "controller" or "dispatcher" logic. Parses the input and determines which Grain class will do the actual processing.
+
+- Add IDecoderGrain to GrainInterfaces
+- Add DecoderGrain to GrainImplementations and decorate it with `[StatelessWorker]` attribute
+- Use the DeviceGrain within DecoderGrain as below:
+
+>           var grain = GrainFactory.GetGrain<IDeviceGrain>(long.Parse(parts[0]));
+
+- In the DevTestHost.DeviceGrainClient use the DecoderGrain instead of DeviceGrain
+
+>    var grain = GrainClient.GrainFactory.GetGrain<IDecoderGrain>(0);
+
