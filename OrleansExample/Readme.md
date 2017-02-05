@@ -189,6 +189,44 @@ Code Example:
 - DecodeGrain will expose the Decode method, 
 - DeviceGrain will expose a new GetTemperature method
 - SystemGrain will expose a new GetTemperature method
+- Add new controllers for Device and System in the WebApi Controllers folder
+- In the WebApi's `Global.asax.cs` file add the following code under `App_Start`
+
+>			var config = ClientConfiguration.LocalhostSilo();
+>           GrainClient.Initialize(config);
+
+- Create another DevTestHost project and remove the Client code.
+- Add the configuration within OrleansHostWrapper as below:
+
+>            ClusterConfiguration config = ClusterConfiguration.LocalhostPrimarySilo();
+>            config.AddFileStorageProvider<DeviceGrainState>(providerName: "DeviceGrainFileProvider");
+
+Running the project:
+- Start both the Host project and WebApi Project
+- Open command prompt and send some POST requests as below
+
+>
+>		C:\WINDOWS\system32>curl http://localhost:50017/api/device --data =5,110
+>
+>		C:\WINDOWS\system32>curl http://localhost:50017/api/device --data =4,105	
+
+- NOTE: Replace 50017 with the actual address of the WebApi Project
+
+- Verify that the data is saved by doing GET requests from a browser window as below:
+
+>   Go to http://localhost:50017/api/device/5
+
+This should show the value as 110
+
+>	  Go to http://localhost:50017/api/device/4
+
+This should show the value as 105
+
+>   Go to	http://localhost:50017/api/system/DefaultSystem
+
+This should show the value as 107.5 (average)
+
+
 
 
 
