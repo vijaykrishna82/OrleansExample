@@ -1,8 +1,6 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-
-using Orleans.Runtime.Configuration;
 using Orleans.Runtime.Host;
 
 namespace OrleansExample.Host
@@ -134,8 +132,7 @@ namespace OrleansExample.Host
                 }
             }
 
-            var config = ClusterConfiguration.LocalhostPrimarySilo();
-            config.AddMemoryStorageProvider();
+            var config = ConfigurationProvider.ConfigureCluster();
             siloHost = new SiloHost(siloName, config);
 
             if (deploymentId != null)
@@ -143,6 +140,8 @@ namespace OrleansExample.Host
 
             return true;
         }
+
+
 
         public void PrintUsage()
         {
